@@ -4,6 +4,10 @@ import "./App.css";
 import { Link } from "react-router-dom";
 
 function Home() {
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
+
   const [question, setQuestion] = useState("");
   const [questions, setQuestions] = useState([]);
 
@@ -17,9 +21,8 @@ function Home() {
       question_created: new Date(),
     });
     console.log(response);
+    fetchQuestions();
   };
-
-  useEffect(() => {});
 
   const fetchQuestions = () => {
     const resp = fetch("http://localhost:8000/getallquestions")
@@ -40,12 +43,10 @@ function Home() {
       <br></br>
       <button onClick={saveQuestion}>Save</button>
       <br></br>
-      <button onClick={fetchQuestions}>Get Question</button>
-      <br></br>
       <div>
         {questions.map((q) => (
           <p key={q.question_id}>
-            <Link to="/question/">{q.question_text}</Link>
+            <Link to={`/question/${q.question_id}`}>{q.question_text}</Link>
           </p>
         ))}
       </div>

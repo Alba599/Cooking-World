@@ -17,6 +17,20 @@ app.use((req, res, next) => {
 // Launch the express app on a port
 app.listen(port, () => console.log(`Listening on ${port}`));
 
+app.get("/question/:id", function (request, response) {
+  db.get(
+    "SELECT * FROM questions WHERE rowid = ?",
+    [request.params.id],
+    function (err, row) {
+      if (err) {
+        console.log(err.message);
+      } else {
+        response.json(row);
+      }
+    }
+  );
+});
+
 app.post("/savequestion", function (request, response) {
   console.log("New question: " + request.body.question_text);
   db.run(
