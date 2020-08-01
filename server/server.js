@@ -46,6 +46,17 @@ var requestHandler = function (request, response) {
   response.end(JSON.stringify(responseObject));
 };
 
+app.get("/getallquestions", function (request, response) {
+  console.log("return questions list");
+  db.all("SELECT * FROM questions", function (err, rows) {
+    if (err) {
+      console.log(err.message);
+    } else {
+      response.json(rows);
+    }
+  });
+});
+
 // These are the routes (first arg: path, second: callback function)
 app.get("/", requestHandler);
 

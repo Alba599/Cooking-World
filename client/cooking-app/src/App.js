@@ -9,6 +9,7 @@ function App() {
   // const [version, setVersion] = useState(null);
 
   const [question, setQuestion] = useState("");
+  const [questions, setQuestions] = useState([]);
 
   const handleQuestion = (event) => {
     setQuestion(event.target.value);
@@ -37,6 +38,15 @@ function App() {
   // const statusText = status
   //   ? "The server is working"
   //   : "The server is not working";
+
+  const fetchQuestions = () => {
+    const resp = fetch("http://localhost:8000/getallquestions")
+      .then((data) => data.json())
+      .then((response) => {
+        console.log(response);
+        setQuestions(response);
+      });
+  };
   return (
     <div className="App">
       <form>
@@ -47,6 +57,14 @@ function App() {
       </form>
       <br></br>
       <button onClick={saveQuestion}>Save</button>
+      <br></br>
+      <button onClick={fetchQuestions}>Get Question</button>
+      <br></br>
+      <div>
+        {questions.map((q) => (
+          <p key={q.question_id}>{q.question_text}</p>
+        ))}
+      </div>
     </div>
   );
 }
