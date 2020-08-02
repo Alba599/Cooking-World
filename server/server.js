@@ -49,6 +49,28 @@ app.post("/savequestion", function (request, response) {
   );
 });
 
+app.post("/saveanswer", function (request, response) {
+  console.log("Answer is: " + request.body.answer_text);
+  db.run(
+    "INSERT INTO answers (question_id, answer_text, answer_created) VALUES (?,?, ?)",
+    [
+      request.body.question_id,
+      request.body.answer_text,
+      request.body.answer_created,
+    ],
+    function (err) {
+      if (err) {
+        console.log(err.message);
+      } else {
+        response.json({
+          question: request.body.answer_text,
+          id: this.lastID,
+        });
+      }
+    }
+  );
+});
+
 // Same request handler as in case of an HTTP server
 var requestHandler = function (request, response) {
   console.log(request.url);
@@ -71,21 +93,20 @@ app.get("/getallquestions", function (request, response) {
   });
 });
 
+app.get("/getanswers/:id", function (request, response) {
+  console.log("return questions list");
+  db.all(
+    "SELECT * FROM answers WHERE question_id = ?",
+    [request.params.id],
+    function (err, rows) {
+      if (err) {
+        console.log(err.message);
+      } else {
+        response.json(rows);
+      }
+    }
+  );
+});
+
 // These are the routes (first arg: path, second: callback function)
 app.get("/", requestHandler);
-
-// app.get("/pets", function (request, response) {
-//   console.log(request.url);
-//   const responseObject = [
-//     {
-//       name: "Bini",
-//       type: "Bunny",
-//     },
-//     {
-//       name: "Siku",
-//       type: "Polar bear",
-//     },
-//   ];
-//   response.setHeader("Access-Control-Allow-Origin", "*");
-//   response.end(JSON.stringify(responseObject));
-// });

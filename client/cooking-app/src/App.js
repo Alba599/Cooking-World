@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import Home from "./Home";
+import Nav from "./Nav";
 import Question from "./Question";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -11,6 +12,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Router>
+          <Nav />
           <Route path="/" exact component={Home} />
           <Route path="/question/:id" exact component={Question} />
         </Router>
