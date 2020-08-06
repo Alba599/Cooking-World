@@ -6,8 +6,8 @@ function Nav() {
   return (
     <div className="nav-menu">
       <Link to="/">Home</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/register">Sign Up</Link>
+      {/* <Link to="/login">Login</Link> */}
+      {/* <Link to="/register">Sign Up</Link> */}
     </div>
   );
 }

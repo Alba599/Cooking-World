@@ -10,15 +10,21 @@ function Home() {
 
   const [question, setQuestion] = useState("");
   const [questions, setQuestions] = useState([]);
+  const [user, setUser] = useState("");
 
   const handleQuestion = (event) => {
     setQuestion(event.target.value);
+  };
+
+  const handleUser = (event) => {
+    setUser(event.target.value);
   };
 
   const saveQuestion = async () => {
     const response = await $.post("http://localhost:8000/savequestion", {
       question_text: question,
       question_created: new Date(),
+      user: user,
     });
     console.log(response);
     fetchQuestions();
@@ -32,12 +38,17 @@ function Home() {
         setQuestions(response);
       });
   };
+
   return (
     <div className="App">
       <form>
         <label>
           Question:
           <input type="text" onChange={handleQuestion} />
+        </label>
+        <label>
+          Username:
+          <input type="text" onChange={handleUser}></input>
         </label>
       </form>
       <br></br>

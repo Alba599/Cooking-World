@@ -11,16 +11,23 @@ function Question({ match }) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [pastAnswers, setPastAnswers] = useState([]);
+  const [user, setUser] = useState("");
+  const [questionUser, setQuestionUser] = useState("");
+  // const [users, setUsers] = useState("");
 
   const handleAnswer = (event) => {
     setAnswer(event.target.value);
   };
 
+  const handleUser = (event) => {
+    setUser(event.target.value);
+  };
   const saveAnswer = async () => {
     const response = await $.post("http://localhost:8000/saveanswer", {
       question_id: match.params.id,
       answer_text: answer,
       answer_created: new Date(),
+      user: user,
     });
     console.log(response);
     fetchPastAnswers();
@@ -33,6 +40,7 @@ function Question({ match }) {
       .then((data) => data.json())
       .then((response) => {
         setQuestion(response.question_text);
+        setQuestionUser(response.user);
       });
   };
 
@@ -49,10 +57,15 @@ function Question({ match }) {
   return (
     <div>
       <h1>{question}</h1>
+      <h3>{questionUser}</h3>
       <form>
         <label>
           Answers:
           <input type="text" onChange={handleAnswer} />
+        </label>
+        <label>
+          Username:
+          <input type="text" onChange={handleUser}></input>
         </label>
       </form>
       <br></br>
@@ -60,7 +73,10 @@ function Question({ match }) {
       <br></br>
       <div>
         {pastAnswers.map((a) => (
-          <p key={a.answer_id}>{a.answer_text}</p>
+          <div key={a.answer_id}>
+            <div>{a.answer_text}</div>
+            <div>{a.user}</div>
+          </div>
         ))}
       </div>
     </div>

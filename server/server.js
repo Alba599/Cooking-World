@@ -1,21 +1,90 @@
 var express = require("express");
 var bodyParser = require("body-parser");
+const passport = require("passport");
+const passportLocal = require("passport-local").Strategy;
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+// const User = require("./user");
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 // Create an express app
 var app = express();
-var port = 8000;
 
+// sqlite database
 var sqlite3 = require("sqlite3");
 var db = new sqlite3.Database("cooking.db");
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  next();
-});
-
 // Launch the express app on a port
+var port = 8000;
 app.listen(port, () => console.log(`Listening on ${port}`));
+
+mongoose.connect(
+  "mongodb+srv://AlbaHalili:Lovely123@cluster0.nio2h.mongodb.net/cooking?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  () => {
+    console.log("Mongoose Is Connected");
+  }
+);
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // <-- location of the react app were connecting to
+    credentials: true,
+  })
+);
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   next();
+// });
+app.use(
+  session({
+    secret: "secretcode",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(cookieParser("secretcode"));
+app.use(passport.initialize());
+app.use(passport.session());
+require("./passportConfig")(passport);
+
+// app.post("/login", (req, res, next) => {
+//   passport.authenticate("local", (err, user, info) => {
+//     if (err) throw err;
+//     if (!user) res.send("No User Exists");
+//     else {
+//       req.logIn(user, (err) => {
+//         if (err) throw err;
+//         res.send("Successfully Authenticated");
+//         console.log(req.user);
+//       });
+//     }
+//   })(req, res, next);
+// });
+
+// app.post("/register", (req, res) => {
+//   console.log(req.body);
+//   User.findOne({ username: req.body.username }, async (err, doc) => {
+//     if (err) console.log(err);
+//     if (doc) res.send("User Already Exists");
+//     if (!doc) {
+//       const hashedPassword = await bcrypt.hash(req.body.password, 10);
+//       const newUser = new User({
+//         username: req.body.username,
+//         password: hashedPassword,
+//       });
+//       await newUser.save();
+//       res.send("User Created");
+//     }
+//   });
+// });
 
 app.get("/question/:id", function (request, response) {
   db.get(
@@ -34,8 +103,12 @@ app.get("/question/:id", function (request, response) {
 app.post("/savequestion", function (request, response) {
   console.log("New question: " + request.body.question_text);
   db.run(
-    "INSERT INTO questions (question_text, question_created) VALUES (?,?)",
-    [request.body.question_text, request.body.question_created],
+    "INSERT INTO questions (question_text, question_created, user) VALUES (?, ?,?)",
+    [
+      request.body.question_text,
+      request.body.question_created,
+      request.body.user,
+    ],
     function (err) {
       if (err) {
         console.log(err.message);
@@ -52,11 +125,13 @@ app.post("/savequestion", function (request, response) {
 app.post("/saveanswer", function (request, response) {
   console.log("Answer is: " + request.body.answer_text);
   db.run(
-    "INSERT INTO answers (question_id, answer_text, answer_created) VALUES (?,?, ?)",
+    "INSERT INTO answers (question_id, answer_text, answer_created, user) VALUES (?, ?, ?, ?)",
     [
       request.body.question_id,
       request.body.answer_text,
       request.body.answer_created,
+      request.body.user,
+      // "",
     ],
     function (err) {
       if (err) {
@@ -70,17 +145,6 @@ app.post("/saveanswer", function (request, response) {
     }
   );
 });
-
-// Same request handler as in case of an HTTP server
-var requestHandler = function (request, response) {
-  console.log(request.url);
-  const responseObject = {
-    status: true,
-    version: "1.0",
-  };
-  response.setHeader("Access-Control-Allow-Origin", "*");
-  response.end(JSON.stringify(responseObject));
-};
 
 app.get("/getallquestions", function (request, response) {
   console.log("return questions list");
@@ -107,6 +171,3 @@ app.get("/getanswers/:id", function (request, response) {
     }
   );
 });
-
-// These are the routes (first arg: path, second: callback function)
-app.get("/", requestHandler);
