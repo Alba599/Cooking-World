@@ -1,15 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 // import "./Nav.css";
+import { Button, Nav } from "react-bootstrap";
 
-function Nav() {
-  return (
-    <div className="nav-menu">
-      <Link to="/">Home</Link>
-      {/* <Link to="/login">Login</Link> */}
-      {/* <Link to="/register">Sign Up</Link> */}
-    </div>
-  );
-}
+// function Navigation() {
+//   return (
+//     // <div className="nav-menu">
+//     //   <Nav>
+//     //     <Nav.Item>
+//     //       <Nav.Link href="/">Home</Nav.Link>
+//     //     </Nav.Item>
+//     //   </Nav>
+//     // </div>
+//   // );
+// }
 
-export default Nav;
+export default Navigation;

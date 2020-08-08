@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import "./App.css";
+import "./Home.css";
 import { Link } from "react-router-dom";
+import {
+  Button,
+  Nav,
+  InputGroup,
+  FormControl,
+  Container,
+  Image,
+  Row,
+  Col,
+  Jumbotron,
+} from "react-bootstrap";
 
 function Home() {
   useEffect(() => {
@@ -40,19 +52,52 @@ function Home() {
   };
 
   return (
-    <div className="App">
+    <div>
       <form>
-        <label>
-          Question:
-          <input type="text" onChange={handleQuestion} />
-        </label>
-        <label>
+        <InputGroup
+          className="smaller-input"
+          size="sm"
+          Col
+          xs={7}
+          class="col-xs-4"
+        >
+          <InputGroup.Prepend>
+            <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            placeholder="Username"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            type="text"
+            onChange={handleUser}
+          />
+        </InputGroup>
+        {/* <label>
           Username:
           <input type="text" onChange={handleUser}></input>
-        </label>
+        </label> */}
+        {/* <label>
+          Question:
+          <input type="text" onChange={handleQuestion} />
+        </label> */}
+        <InputGroup className="mb-4" className="smaller-input">
+          <InputGroup.Prepend>
+            <InputGroup.Text>Enter Question</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            as="textarea"
+            aria-label="With textarea"
+            type="text"
+            onChange={handleQuestion}
+          />
+        </InputGroup>
       </form>
       <br></br>
-      <button onClick={saveQuestion}>Save</button>
+      <Button variant="light" onClick={saveQuestion}>
+        Save
+      </Button>
+      {/* <button onClick={saveQuestion}>Save</button> */}
+
       <br></br>
       <div>
         {questions.map((q) => (

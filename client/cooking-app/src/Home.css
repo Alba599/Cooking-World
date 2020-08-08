@@ -1,0 +1,26 @@
+.primary {
+  color: orange;
+}
+
+.jumbotron {
+  background-image: url(cookingPic.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+/* 
+.mb-3 {
+  margin-left: 40px;
+  margin-right: 40px;
+} */
+
+/* .mb-4 {
+  margin-left: 30px;
+  margin-right: 30px;
+} */
+
+.smaller-input {
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-bottom: 20px;
+}

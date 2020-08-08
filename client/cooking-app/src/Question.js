@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import $ from "jquery";
+import { Link } from "react-router-dom";
+import App from "./App";
+import { Button, Nav } from "react-bootstrap";
 
 function Question({ match }) {
   useEffect(() => {
@@ -56,6 +59,13 @@ function Question({ match }) {
 
   return (
     <div>
+      <div className="nav-menu">
+        <Nav>
+          <Nav.Item>
+            <Nav.Link href="/">Home</Nav.Link>
+          </Nav.Item>
+        </Nav>
+      </div>
       <h1>{question}</h1>
       <h3>{questionUser}</h3>
       <form>
