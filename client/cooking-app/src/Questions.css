@@ -18,8 +18,7 @@
 }
 
 .saveAnswers {
-  /* padding-left: 100px; */
-  padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .answers {
@@ -27,6 +26,7 @@
   padding-right: 100px;
   padding-bottom: 20px;
   /* font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; */
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-size: 20px;
   letter-spacing: 2px;
   word-spacing: 0px;

@@ -4,7 +4,6 @@ const passport = require("passport");
 const passportLocal = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-// const User = require("./user");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -39,10 +38,7 @@ app.use(
     credentials: true,
   })
 );
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   next();
-// });
+
 app.use(
   session({
     secret: "secretcode",
@@ -54,37 +50,6 @@ app.use(cookieParser("secretcode"));
 app.use(passport.initialize());
 app.use(passport.session());
 require("./passportConfig")(passport);
-
-// app.post("/login", (req, res, next) => {
-//   passport.authenticate("local", (err, user, info) => {
-//     if (err) throw err;
-//     if (!user) res.send("No User Exists");
-//     else {
-//       req.logIn(user, (err) => {
-//         if (err) throw err;
-//         res.send("Successfully Authenticated");
-//         console.log(req.user);
-//       });
-//     }
-//   })(req, res, next);
-// });
-
-// app.post("/register", (req, res) => {
-//   console.log(req.body);
-//   User.findOne({ username: req.body.username }, async (err, doc) => {
-//     if (err) console.log(err);
-//     if (doc) res.send("User Already Exists");
-//     if (!doc) {
-//       const hashedPassword = await bcrypt.hash(req.body.password, 10);
-//       const newUser = new User({
-//         username: req.body.username,
-//         password: hashedPassword,
-//       });
-//       await newUser.save();
-//       res.send("User Created");
-//     }
-//   });
-// });
 
 app.get("/question/:id", function (request, response) {
   db.get(

@@ -24,8 +24,14 @@ function Home() {
   const [question, setQuestion] = useState("");
   const [questions, setQuestions] = useState([]);
   const [user, setUser] = useState("");
+  const [canSave, setCanSave] = useState(false);
 
   const handleQuestion = (event) => {
+    if (event.target.value.length > 0) {
+      setCanSave(true);
+    } else {
+      setCanSave(false);
+    }
     setQuestion(event.target.value);
   };
 
@@ -73,14 +79,6 @@ function Home() {
             onChange={handleUser}
           />
         </InputGroup>
-        {/* <label>
-          Username:
-          <input type="text" onChange={handleUser}></input>
-        </label> */}
-        {/* <label>
-          Question:
-          <input type="text" onChange={handleQuestion} />
-        </label> */}
         <InputGroup className="mb-4" className="smaller-input">
           <InputGroup.Prepend>
             <InputGroup.Text>Enter Question</InputGroup.Text>
@@ -95,10 +93,9 @@ function Home() {
       </form>
       <br></br>
       <div className="saveQuestions">
-        <Button variant="light" onClick={saveQuestion}>
+        <Button disabled={!canSave} variant="light" onClick={saveQuestion}>
           Save
         </Button>
-        {/* <button onClick={saveQuestion}>Save</button> */}
       </div>
       <br></br>
       <div>
@@ -106,7 +103,9 @@ function Home() {
           <p key={q.question_id} className="questions">
             <ListGroup>
               <ListGroup.Item>
-                <Link to={`/question/${q.question_id}`}>{q.question_text}</Link>
+                <Link className="link" to={`/question/${q.question_id}`}>
+                  {q.question_text}
+                </Link>
               </ListGroup.Item>
             </ListGroup>
           </p>

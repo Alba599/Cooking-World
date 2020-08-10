@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import { Link } from "react-router-dom";
 import App from "./App";
-// import { Button, Nav } from "react-bootstrap";
 import "./Questions.css";
 import {
   Button,
@@ -21,7 +20,6 @@ function Question({ match }) {
   useEffect(() => {
     fetchQuestion();
     fetchPastAnswers();
-    // console.log(match);
   }, []);
 
   const [question, setQuestion] = useState("");
@@ -29,9 +27,14 @@ function Question({ match }) {
   const [pastAnswers, setPastAnswers] = useState([]);
   const [user, setUser] = useState("");
   const [questionUser, setQuestionUser] = useState("");
-  // const [users, setUsers] = useState("");
+  const [canSave, setCanSave] = useState(false);
 
   const handleAnswer = (event) => {
+    if (event.target.value.length > 0) {
+      setCanSave(true);
+    } else {
+      setCanSave(false);
+    }
     setAnswer(event.target.value);
   };
 
@@ -82,7 +85,6 @@ function Question({ match }) {
         </Nav>
       </div>
       <h1 className="questionTitle">{question}</h1>
-      {/* <h3>{questionUser}</h3> */}
       <InputGroup
         className="smaller-input"
         size="sm"
@@ -113,39 +115,23 @@ function Question({ match }) {
             onChange={handleAnswer}
           />
         </InputGroup>
-        {/* <label>
-          Answers:
-          <input type="text" onChange={handleAnswer} />
-        </label> */}
-        {/* <label>
-          Username:
-          <input type="text" onChange={handleUser}></input>
-        </label> */}
       </form>
       <br></br>
-      <Button variant="light" onClick={saveAnswer} className="saveAnswers">
+      <Button
+        disabled={!canSave}
+        variant="light"
+        onClick={saveAnswer}
+        className="saveAnswers"
+      >
         Save Answer
       </Button>
-      {/* <button onClick={saveAnswer}>Save Answer</button> */}
       <br></br>
-      {/* <div>
-        {pastAnswers.map((a) => (
-          <div key={a.answer_id}>
-            <div>{a.answer_text}</div>
-            <div>{a.user}</div>
-          </div>
-        ))}
-      </div> */}
       <div>
         {pastAnswers.map((a) => (
           <div key={a.answer_id} className="answers">
-            <ListGroup>
-              <ListGroup.Item>
-                <Link className="answerBox">{a.answer_text}</Link>
-                <br></br>
-                <Link className="user">{a.user}</Link>
-              </ListGroup.Item>
-            </ListGroup>
+            <span>{a.answer_text}</span>
+            <br></br>
+            <span>{a.user}</span>
           </div>
         ))}
       </div>
