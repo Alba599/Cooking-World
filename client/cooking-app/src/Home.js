@@ -13,6 +13,7 @@ import {
   Row,
   Col,
   Jumbotron,
+  ListGroup,
 } from "react-bootstrap";
 
 function Home() {
@@ -93,16 +94,21 @@ function Home() {
         </InputGroup>
       </form>
       <br></br>
-      <Button variant="light" onClick={saveQuestion}>
-        Save
-      </Button>
-      {/* <button onClick={saveQuestion}>Save</button> */}
-
+      <div className="saveQuestions">
+        <Button variant="light" onClick={saveQuestion}>
+          Save
+        </Button>
+        {/* <button onClick={saveQuestion}>Save</button> */}
+      </div>
       <br></br>
       <div>
         {questions.map((q) => (
-          <p key={q.question_id}>
-            <Link to={`/question/${q.question_id}`}>{q.question_text}</Link>
+          <p key={q.question_id} className="questions">
+            <ListGroup>
+              <ListGroup.Item>
+                <Link to={`/question/${q.question_id}`}>{q.question_text}</Link>
+              </ListGroup.Item>
+            </ListGroup>
           </p>
         ))}
       </div>

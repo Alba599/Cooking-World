@@ -28,14 +28,19 @@ class App extends React.Component {
       <div className="App">
         <Jumbotron fluid>
           <Container>
-            <h1>Cooking World</h1>
+            <h1 className="title">Cooking World</h1>
           </Container>
         </Jumbotron>
         <Router>
           <Route path="/" exact component={Home} />
           {/* <Route path="/login" exact component={Login} /> */}
           {/* <Route path="/register" exact component={Register} /> */}
-          <Route path="/question/:id" exact component={Question} />
+          <Route
+            className="saveAnswers"
+            path="/question/:id"
+            exact
+            component={Question}
+          />
         </Router>
       </div>
     );

@@ -2,7 +2,20 @@ import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import { Link } from "react-router-dom";
 import App from "./App";
-import { Button, Nav } from "react-bootstrap";
+// import { Button, Nav } from "react-bootstrap";
+import "./Questions.css";
+import {
+  Button,
+  Nav,
+  InputGroup,
+  FormControl,
+  Container,
+  Image,
+  Row,
+  Col,
+  Jumbotron,
+  ListGroup,
+} from "react-bootstrap";
 
 function Question({ match }) {
   useEffect(() => {
@@ -62,30 +75,77 @@ function Question({ match }) {
       <div className="nav-menu">
         <Nav>
           <Nav.Item>
-            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/">
+              <Button variant="light">Home</Button>
+            </Nav.Link>
           </Nav.Item>
         </Nav>
       </div>
-      <h1>{question}</h1>
-      <h3>{questionUser}</h3>
+      <h1 className="questionTitle">{question}</h1>
+      {/* <h3>{questionUser}</h3> */}
+      <InputGroup
+        className="smaller-input"
+        size="sm"
+        Col
+        xs={7}
+        class="col-xs-4"
+      >
+        <InputGroup.Prepend>
+          <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
+        </InputGroup.Prepend>
+        <FormControl
+          placeholder="Username"
+          aria-label="Username"
+          aria-describedby="basic-addon1"
+          type="text"
+          onChange={handleUser}
+        />
+      </InputGroup>
       <form>
-        <label>
+        <InputGroup className="mb-4" className="smaller-input">
+          <InputGroup.Prepend>
+            <InputGroup.Text>Answers</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            as="textarea"
+            aria-label="With textarea"
+            type="text"
+            onChange={handleAnswer}
+          />
+        </InputGroup>
+        {/* <label>
           Answers:
           <input type="text" onChange={handleAnswer} />
-        </label>
-        <label>
+        </label> */}
+        {/* <label>
           Username:
           <input type="text" onChange={handleUser}></input>
-        </label>
+        </label> */}
       </form>
       <br></br>
-      <button onClick={saveAnswer}>Save Answer</button>
+      <Button variant="light" onClick={saveAnswer} className="saveAnswers">
+        Save Answer
+      </Button>
+      {/* <button onClick={saveAnswer}>Save Answer</button> */}
       <br></br>
-      <div>
+      {/* <div>
         {pastAnswers.map((a) => (
           <div key={a.answer_id}>
             <div>{a.answer_text}</div>
             <div>{a.user}</div>
+          </div>
+        ))}
+      </div> */}
+      <div>
+        {pastAnswers.map((a) => (
+          <div key={a.answer_id} className="answers">
+            <ListGroup>
+              <ListGroup.Item>
+                <Link className="answerBox">{a.answer_text}</Link>
+                <br></br>
+                <Link className="user">{a.user}</Link>
+              </ListGroup.Item>
+            </ListGroup>
           </div>
         ))}
       </div>
